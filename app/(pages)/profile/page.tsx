@@ -5,16 +5,14 @@ import { FaUser, FaUsers, FaBox, FaEdit, FaFileInvoice, FaEnvelope, FaChartBar }
 import { FaBuildingUser } from 'react-icons/fa6';
 import { IoMenu } from 'react-icons/io5';
 
-const page = () => {
-    const { data: session, status } = useSession();
+export default function ProfilePage() {
+    const { data: session } = useSession();
 
-    if (!status) {
-        return <div>Giriş Yapınız</div>;
+    if (!session) {
+        return <div>Lütfen giriş yapınız</div>;
     }
 
-    else{
-
-  return (
+    return (
     <div className="bg-primary-gray min-h-screen pb-20">
 
       <div className="flex justify-around items-center p-4">
@@ -137,6 +135,4 @@ const page = () => {
       </div>
     </div>
   );
-};
 }
-export default page;
