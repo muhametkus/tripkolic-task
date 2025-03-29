@@ -1,6 +1,21 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { JWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user?: {
+      id: string;
+    } & DefaultSession["user"]
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+  }
+}
 
 export const authOptions = {
   providers: [
@@ -24,34 +39,34 @@ export const authOptions = {
           const { status } = response.data;
 
           if (status == true) {
-            // API başarılı yanıt verdiğinde kullanıcı nesnesini döndür
             return {
               id: credentials.userId,
               name: credentials.userId,
-              email: `${credentials.userId}@example.com`, // NextAuth email field gerektirir
+              email: `${credentials.userId}@example.com`,
             };
           }
           
           throw new Error("Giriş başarısız");
-        } catch (error: any) {
+        } catch (error) {
           console.error("Giriş hatası:", error);
-          throw new Error(error.response?.data?.message || "Giriş işlemi başarısız");
+          if (axios.isAxiosError(error)) {
+            throw new Error(error.response?.data?.message || "Giriş işlemi başarısız");
+          }
+          throw new Error("Giriş işlemi başarısız");
         }
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: any; user?: any }) {
+    async jwt({ token, user }: { token: JWT; user: any }) {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
       }
       return token;
     },
-    async session({ session, token }: { session: any; token: any }) {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (session.user) {
         session.user.id = token.id;
-        session.user.name = token.name;
       }
       return session;
     },
