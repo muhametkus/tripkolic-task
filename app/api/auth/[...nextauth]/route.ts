@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession, User, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { JWT } from "next-auth/jwt";
@@ -15,6 +15,12 @@ declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
   }
+}
+
+interface CustomUser extends User {
+  id: string;
+  name: string;
+  email: string;
 }
 
 export const authOptions = {
@@ -43,7 +49,7 @@ export const authOptions = {
               id: credentials.userId,
               name: credentials.userId,
               email: `${credentials.userId}@example.com`,
-            };
+            } as CustomUser;
           }
           
           throw new Error("Giriş başarısız");
@@ -58,15 +64,15 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user: any }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }: { session: any; token: JWT }) {
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;
+        session.user.id = token.id as string;
       }
       return session;
     },
