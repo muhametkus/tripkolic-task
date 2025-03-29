@@ -28,7 +28,7 @@ export default function page() {
       if (result?.error) {
         setError("Giriş başarısız. Kullanıcı ID veya şifre hatalı.");
       } else {
-        router.push("/");
+        router.push("/profile");
         router.refresh();
       }
     } catch (error) {
@@ -40,14 +40,12 @@ export default function page() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-primary-gray">
-      {/* Logo Container */}
       <div className="w-full md:max-w-sm flex flex-2/6 justify-center items-center">
         <div className="flex justify-center items-center">
           <img src="./img/logo.png" alt="Logo" className="w-[60%] md:w-[70%]" />
         </div>
       </div>
 
-      {/* Login Form */}
       <div className="w-full md:max-w-sm flex flex-3/6">
         <div className="w-full max-w-sm mx-auto px-7 md:px-0">
           <h2 className="text-2xl font-semibold text-center text-primary-orange mb-8">
@@ -106,7 +104,6 @@ export default function page() {
         </div>
       </div>
 
-      {/* Register Section */}
       <div className="w-full md:max-w-sm flex items-center">
         <div className="w-full max-w-sm mx-auto bg-white rounded-t-3xl">
           <p className="text-center text-primary-orange text-xl font-medium my-7">Register as</p>
