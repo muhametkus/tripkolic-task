@@ -7,7 +7,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { FiLock } from "react-icons/fi";
 import Image from "next/image";
 
-export default function page() {
+export default function LoginPage() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -43,7 +43,13 @@ export default function page() {
     <div className="min-h-screen flex flex-col items-center justify-between bg-primary-gray">
       <div className="w-full md:max-w-sm flex flex-2/6 justify-center items-center">
         <div className="flex justify-center items-center">
-          <Image src="./img/logo.png" alt="Logo" className="w-[60%] md:w-[70%]" />
+          <Image 
+            src="/img/logo.png" 
+            alt="Logo" 
+            width={200}
+            height={80}
+            className="w-[60%] md:w-[70%]" 
+          />
         </div>
       </div>
 

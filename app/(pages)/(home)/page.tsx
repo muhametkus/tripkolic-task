@@ -1,14 +1,12 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
-import { FaUserAlt } from "react-icons/fa";
-import { FiLock } from "react-icons/fi";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   return (
-<div>
-  HomePage
-</div>
+    <div>
+      HomePage
+    </div>
   );
 }
